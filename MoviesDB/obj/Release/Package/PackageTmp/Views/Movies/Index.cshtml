@@ -1,0 +1,31 @@
+﻿@model IEnumerable<MoviesDB.EF.Entertainments>
+
+
+@Html.Partial("_MoviesCarousel", Model)
+
+@Html.Partial("_MoviesCatalog", Model)
+
+<!--<div id="searchResultsContainer">-->
+<!-- The search results will be dynamically loaded here -->
+<!--</div>-->
+
+<style>
+    .header {
+        display: block !important;
+        background-color: transparent !important;
+    }
+
+    .header__logo {
+        background-color: transparent !important;
+    }
+
+    .header__actions {
+        justify-content: flex-end !important;
+    }
+
+        .header__actions a {
+            padding-left: 20px;
+        }
+</style>
+
+

@@ -1,0 +1,10 @@
+﻿@model IEnumerable<MoviesDB.EF.Users>
+
+@{
+    ViewBag.Title = "Admin Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_AllUsers", Model)
+
+

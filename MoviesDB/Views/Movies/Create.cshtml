@@ -1,0 +1,185 @@
+﻿@model MoviesDB.EF.Entertainments
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="row">
+            @*         main title*@
+            <div class="col-12">
+                <div class="main__title">
+                    <h2>Add new Movie</h2>
+                </div>
+            </div>
+            @*   end main title*@
+            @* form*@
+            <div class="col-12">
+                @*<form action="#" class="form">*@
+                @using (Html.BeginForm("Create", "Movies", FormMethod.Post, new { enctype = "multipart/form-data", id = "createMovei" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-12 col-md-5 form__cover">
+                            <div class="row">
+                                <div class="col-12 col-sm-6 col-md-12">
+                                    <div class="form__img">
+                                        <label for="form__img-upload">Upload cover</label>
+                                        <input id="form__img-upload" name="Image_Cover" type="file" accept=".png, .jpg, .jpeg">
+                                        <img id="form__img" src="#" alt=" ">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-7 form__content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form__group">
+                                        @*Title*@
+                                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @placeholder = "Title", @class = "form__input" } })
+                                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form__group">
+                                        @*Description*@
+                                        @Html.TextAreaFor(model => model.Description, new { @class = "form__textarea", placeholder = "Description" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    <div class="form__group">
+                                        @*Release Year*@
+                                        @Html.EditorFor(model => model.Release_Year, new { htmlAttributes = new { @placeholder = "Release year", @class = "form__input" } })
+                                        @Html.ValidationMessageFor(model => model.Release_Year, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    <div class="form__group">
+                                        @*Duration*@
+                                        @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @placeholder = "Duration", @class = "form__input" } })
+                                        @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-3">
+                                    <div class="form__group">
+                                        @*Rating*@
+                                        @Html.EditorFor(model => model.Ratings, new { htmlAttributes = new { @placeholder = "Ratings", @class = "form__input" } })
+                                        @Html.ValidationMessageFor(model => model.Ratings, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+                                @*Genres*@
+                                <div class="col-12">
+                                    <div class="form__group">
+                                        <select name="genre" class="js-example-basic-multiple select2-default select2-hidden-accessible" id="genre" multiple="" data-select2-id="genre" tabindex="-1" aria-hidden="true">
+                                            @foreach (var x in ViewBag.genres)
+                                            {
+                                                <option value="@x.Text">@x.Text</option>
+                                            }
+
+                                        </select>
+                                        @*@Html.ValidationMessage("genres", "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+
+                                @* Director *@
+                                @*<div class="col-12 col-lg-6">
+                                    <div class="form__group">
+                                        <select name="director" class="js-example-basic-multiple select2-hidden-accessible" id="director" multiple="" data-select2-id="director" tabindex="-1" aria-hidden="true">
+                                            @foreach (var x in ViewBag.directors)
+                                            {
+                                                <option value="@x.Text">@x.Text</option>
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>*@
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="form__btn">publish</button>
+                        </div>
+                    </div>
+                }
+
+                @*</form>*@
+            </div>
+            @* end form*@
+        </div>
+    </div>
+</main>
+
+
+<style>
+    .header {
+        display: block !important;
+    }
+
+    .header__logo {
+        background-color: transparent !important;
+    }
+
+    .main {
+        padding: 0 207px 30px 207px;
+        margin-top: 0;
+    }
+
+    .form__img label {
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 2;
+        cursor: pointer;
+        margin: 0;
+        font-weight: normal;
+        font-size: 14px;
+        color: #e0e0e0;
+        transition: 0.5s;
+    }
+    /*.select2-search__field {
+        min-width: 200px!important;
+    }*/
+     .select2-search__field {
+        width: 100% !important;
+    }
+    
+</style>
+
+<script>
+    // Validate Genre Multi Select
+    $(document).ready(function () {
+        $("#createMovei").validate({
+            rules: {
+                genre: {
+                    required: true
+                }
+            },
+            messages: {
+                genre: {
+                    required: "Please select at least one genre."
+                }
+            }
+        });
+    });
+</script>

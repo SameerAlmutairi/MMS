@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Unauthorized";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<style>
+    .unauthorized-container {
+        text-align: center;
+        margin-top: 50vh;
+        transform: translateY(-50%);
+    }
+
+    .unauthorized-message {
+        color: white;
+        display: block;
+        margin-right: 10px;
+    }
+</style>
+
+<div class="unauthorized-container">
+    <h1 class="unauthorized-message">Unauthorized</h1>
+    <h4 class="unauthorized-message">
+        <a href="@Url.Action("Index", "Movies")">Back to main page</a>
+    </h4>
+</div>

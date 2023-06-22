@@ -1,0 +1,122 @@
+﻿@model IEnumerable<MoviesDB.EF.Entertainments>
+
+<style>
+    .home__carousel .home__card {
+        width: 400px;
+        height: 550px;
+        overflow: hidden;
+    }
+
+        .home__carousel .home__card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+</style>
+
+<div class="home home--static">
+    <div class="home__carousel owl-carousel" id="flixtv-hero">
+        @foreach (var item in Model.OrderByDescending(item => item.Id).Take(5))
+        {
+            <div class="home__card">
+                <a href="@Url.Action("Details", "Movies", new { id = item.Id })">
+                    <img src="~/Content/images/movies/@item.Image_Cover" alt="">
+                </a>
+                <div>
+                    <h2>@item.Title</h2>
+                    <ul>
+                        <li>@item.Release_Year</li>
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        // Set the interval time in milliseconds
+        var intervalTime = 4000; // 4 seconds
+
+        // Get the carousel element and its items
+        var carousel = $('#flixtv-hero');
+        var items = carousel.find('.home__card');
+
+        // Set the initial slide index and total number of slides
+        var currentSlideIndex = 0;
+        var totalSlides = items.length;
+
+        // Get the width of each slide
+        var slideWidth = items.first().outerWidth();
+
+        // Calculate the total width of all slides
+        var totalWidth = slideWidth * totalSlides;
+
+        // Set the width of the carousel to the total width of all slides
+        carousel.width(totalWidth);
+
+        // Create the interval function
+        var intervalFunction = setInterval(function () {
+            // Clone the previous slide and append it to the end of the carousel
+            var prevSlide = items.eq(currentSlideIndex - 1).clone();
+            carousel.append(prevSlide);
+
+            // Update the items variable to account for the new slide
+            items = carousel.find('.home__card');
+
+            // Increment the current slide index
+            currentSlideIndex++;
+
+            // Calculate the distance to move the carousel
+            var distance = currentSlideIndex * -slideWidth;
+
+            // Animate the carousel to the new position
+            items.animate({ left: distance + 'px' }, 500, function () {
+                // If we've reached the end of the cloned slide, remove it and reset the position
+                if (currentSlideIndex >= totalSlides) {
+                    items.last().remove();
+                    items.css('left', '0px');
+                    currentSlideIndex = 0;
+                }
+            });
+
+        }, intervalTime);
+
+        // Pause the interval function when the mouse enters the carousel
+        carousel.on('mouseenter', function () {
+            clearInterval(intervalFunction);
+        });
+
+        // Resume the interval function when the mouse leaves the carousel
+        carousel.on('mouseleave', function () {
+            intervalFunction = setInterval(function () {
+                // Clone the previous slide and append it to the end of the carousel
+                var prevSlide = items.eq(currentSlideIndex - 1).clone();
+                /*carousel.append(prevSlide);*/
+
+                // Update the items variable to account for the new slide
+                items = carousel.find('.home__card');
+
+                // Increment the current slide index
+                currentSlideIndex++;
+
+                // Calculate the distance to move the carousel
+                var distance = currentSlideIndex * -slideWidth;
+
+                // Animate the carousel to the new position
+                items.animate({ left: distance + 'px' }, 500, function () {
+                    // If we've reached the end of the cloned slide, remove it and reset the position
+                    if (currentSlideIndex >= totalSlides) {
+                        items.last().remove();
+                        items.css('left', '0px');
+                        currentSlideIndex = 0;
+                    }
+                });
+
+            }, intervalTime);
+        });
+    });*@
+</script>

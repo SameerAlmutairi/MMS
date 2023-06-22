@@ -1,0 +1,56 @@
+﻿@model MoviesDB.EF.Users
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="sign section--bg movie-bg" style="background: url(../../Content/images/bg.jpg) center center/cover no-repeat;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="sign__content">
+                    <!-- registration form -->
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "sign__form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a href="@Url.Action("Index","Movies")" class="sign__logo">
+                            <h1>MovieDB</h1>
+                        </a>
+
+                        <div class="sign__group">
+                            @*<input type="text" class="sign__input" placeholder="Name">*@
+                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @placeholder = "UserName", @class = "sign__input" } })
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="sign__group">
+                            @*<input type="text" class="sign__input" placeholder="Email">*@
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @placeholder = "Email", @class = "sign__input" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="sign__group">
+                            @*<input type="password" class="sign__input" placeholder="Password">*@
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @placeholder = "Password", @class = "sign__input" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <button class="sign__btn" type="submit">Sign up</button>
+
+                        <span class="sign__text">Already have an account? <a href="@Url.Action("Login","Account")">Sign in!</a></span>
+                    }
+                    <!-- registration form -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* .movie-bg {
+        background: url(https://getwallpapers.com/wallpaper/full/a/6/b/829635-movie-backgrounds-2365x1478-lockscreen.jpg) center center cover no-repeat;
+    }*/
+
+</style>

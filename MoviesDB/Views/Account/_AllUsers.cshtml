@@ -1,0 +1,332 @@
+﻿@model IEnumerable<MoviesDB.EF.Users>
+@*@model PagedList.<MoviesDB.EF.Users>*@
+@*@model X.PagedList.IPagedList< MoviesDB.EF.Users>*@
+
+@*@using X.PagedList.Mvc*@
+
+
+
+<!-- main content -->
+<main class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+                <div class="main__title">
+                    <h2>Users</h2>
+                    @* Users Number *@
+                    <span class="main__title-stat">@Model.Count() - total</span>
+                </div>
+            </div>
+            <!-- end main title -->
+            <!-- users -->
+            <div class="col-12">
+                <div class="main__table-wrap">
+                    <table class="main__table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>BASIC INFO</th>
+                                <th>USERNAME</th>
+                                <th>STATUS</th>
+                                @*<th>CRAETED DATE</th>*@
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="main__table-text">@item.Id</div>
+                                    </td>
+                                    <td>
+                                        <div class="main__user">
+                                            <div class="main__avatar">
+                                                <img src="~/Content/images/user.svg" alt="">
+                                            </div>
+                                            <div class="main__meta">
+                                                <h3>@item.UserName</h3>
+                                                <span>@item.Email</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="main__table-text">@item.UserName</div>
+                                    </td>
+                                    <td>
+                                        @*<div class="main__table-text main__table-text--green">
+                                                @item.IsActive == true ??"Approved" : "Not Approved"
+                                            </div>*@
+                                        <div class="main__table-text @(item.IsActive ? "greenText" : "redText")">
+                                            @(item.IsActive ? "Approved" : "Not Approved")
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="main__table-btns">
+                                            @*<a href="#modal-status" class="main__table-btn main__table-btn--banned open-modal">*@
+                                            <a id="activateUserBtn" class="main__table-btn main__table-btn--banned activate-user" data-userid="@item.Id" data-isactivated="@item.IsActive">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,13a1.49,1.49,0,0,0-1,2.61V17a1,1,0,0,0,2,0V15.61A1.49,1.49,0,0,0,12,13Zm5-4V7A5,5,0,0,0,7,7V9a3,3,0,0,0-3,3v7a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V12A3,3,0,0,0,17,9ZM9,7a3,3,0,0,1,6,0V9H9Zm9,12a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V12a1,1,0,0,1,1-1H17a1,1,0,0,1,1,1Z" /></svg>
+                                            </a>
+                                            <a id="testjs">test</a>
+                                            @*<a href="edit-user.html" class="main__table-btn main__table-btn--edit">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z" /></svg>
+                                                </a>
+                                                <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z" /></svg>
+                                                </a>*@
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+
+                    </table>
+                </div>
+            </div>
+            <!-- end users -->
+            <!-- paginator -->
+            <div class="col-12">
+
+                @*<div class="paginator">
+                        <span class="paginator__pages">Page @Model.PageNumber.ToString() from @Model.PageCount.ToString()</span>
+
+                        <ul class="paginator__paginator">
+                            <li>
+                                <a href="#">
+                                    <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.75 5.36475L13.1992 5.36475" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5.771 10.1271L0.749878 5.36496L5.771 0.602051" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                </a>
+                            </li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li>
+                                <a href="#">
+                                    <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.1992 5.3645L0.75 5.3645" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8.17822 0.602051L13.1993 5.36417L8.17822 10.1271" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>*@
+            </div>
+            <!-- end paginator -->
+        </div>
+    </div>
+</main>
+<!-- end main content -->
+
+<script src="~/Scripts/jquery-3.5.1.js"></script>
+<script>
+
+   @* $(document).ready(function () {
+            $('.activate-user').click(function () {
+                console.log("test")
+                // Send AJAX request to the Account Controller
+                /*debugger;*/
+                var userId = $(this).data("userid");
+                var isActivated = $(this).data("isactivated");
+                $.ajax({
+                    url: '@Url.Action("ActivateOrDeactivateUser", "Account")',
+                    type: 'POST',
+                    data: { userId: userId, isActivated: isActivated },
+                    success: function (response) {
+                        // Refresh the page or perform any other necessary actions
+                       // alert('User activated successfully!');
+                        location.reload(); // Refresh the page
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response here
+                        // For example, display an error message
+                        alert('Error activating user: ' + error);
+                    }
+                });
+            });
+        });*@
+
+
+  @* $(document).ready(function () {
+  $('.activate-user').click(function () {
+    // Get the user ID and activation status from the data attributes of the button
+    var userId = $(this).data("userid");
+    var isActivated = $(this).data("isactivated");
+
+    // Show a confirmation dialog
+    if (confirm('Are you sure you want to immediately change the status?')) {
+      // Send an AJAX request to the Account Controller
+      $.ajax({
+        url: '@Url.Action("ActivateOrDeactivateUser", "Account")',
+        type: 'POST',
+        data: { userId: userId, isActivated: isActivated },
+        success: function (response) {
+          // Refresh the page or perform any other necessary actions
+          // alert('User activated successfully!');
+          location.reload(); // Refresh the page
+        },
+        error: function (xhr, status, error) {
+          // Handle error response here
+          // For example, display an error message
+          alert('Error activating user: ' + error);
+        }
+      });
+    }
+  });
+});*@
+
+
+    @* $(document).ready(function () {
+  $('.activate-user').click(function () {
+    // Add the HTML content to the page
+    $('body').prepend(`
+      <div class="mfp-bg my-mfp-zoom-in mfp-ready"></div>
+      <div class="mfp-wrap mfp-close-btn-in mfp-auto-cursor my-mfp-zoom-in mfp-ready" tabindex="-1" style="overflow: hidden auto;">
+        <div class="mfp-container mfp-inline-holder">
+          <div class="mfp-content">
+            <div id="modal-status" class="zoom-anim-dialog modal">
+              <h6 class="modal__title">Status change</h6>
+              <p class="modal__text">Are you sure about immediately changing the status?</p>
+              <div class="modal__btns">
+                <button class="modal__btn modal__btn--apply" type="button">Apply</button>
+                <button class="modal__btn modal__btn--dismiss cancel-button" type="button">Dismiss</button>
+              </div>
+              <button title="Close (Esc)" type="button" class="mfp-close">×</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+
+    // Show the modal
+    $('#modal-status').show();
+
+    // Handle the "Apply" button click
+    $('.modal__btn--apply').click(function() {
+      var userId = $(this).data("userid");
+      var isActivated = $(this).data("isactivated");
+      $.ajax({
+        url: '@Url.Action("ActivateOrDeactivateUser", "Account")',
+        type: 'POST',
+        data: { userId: userId, isActivated: isActivated },
+        success: function (response) {
+          location.reload(); // Refresh the page
+        },
+        error: function (xhr, status, error) {
+          alert('Error activating user: ' + error);
+        }
+      });
+    });
+
+    // Handle the "Dismiss" button click
+    $('.cancel-button').click(function() {
+      $('#modal-status').hide();
+    });
+  });
+});*@
+
+    $(document).ready(function () {
+    $('.activate-user').click(function (e) {
+      console.log("activate")
+    // Add the HTML content to the page
+      var userId = $(this).data("userid");
+      var isActivated = $(this).data("isactivated");
+    $('body').prepend(`
+      <div class="at mfp-bg my-mfp-zoom-in mfp-ready" id = "popup1"></div>
+      <div class="at mfp-wrap mfp-close-btn-in mfp-auto-cursor my-mfp-zoom-in mfp-ready" id = "popup2" tabindex="-1" style="overflow: hidden auto; ">
+        <div class="mfp-container mfp-inline-holder">
+          <div class="mfp-content">
+            <div id="modal-status" class="zoom-anim-dialog modal">
+              <h6 class="modal__title">Status change</h6>
+              <p class="modal__text">Are you sure you want to immediately change the status?</p>
+              <div class="modal__btns">
+                <button class="modal__btn modal__btn--apply" type="button">Apply</button>
+                <button class="modal__btn modal__btn--dismiss cancel-button" type="button">Dismiss</button>
+              </div>
+              <button title="Close (Esc)" type="button" class="mfp-close">×</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+
+    // Handle the "Apply" button click
+      $('.modal__btn--apply').click(function () {
+          console.log("apply btn");
+          //var userId = $(this).data("userid");
+          //var userId = $(this).closest('.mfp-wrap').find('.activate-user').data("userid");
+          console.log(userId);
+          //var isActivated = $(this).data("isactivated");
+          //var isActivated = $(this).closest('.mfp-wrap').find('.activate-user').data("isactivated");
+          console.log(isActivated);
+
+          $.ajax({
+            url: '@Url.Action("ActivateOrDeactivateUser", "Account")',
+            type: 'POST',
+            data: { userId: userId, isActivated: isActivated },
+            success: function (response) {
+              // Refresh the page or perform any other necessary actions
+              // alert('User activated successfully!');
+              location.reload(); // Refresh the page
+            },
+            error: function (xhr, status, error) {
+              // Handle error response here
+              // For example, display an error message
+              alert('Error activating user: ' + error);
+            }
+          });
+    });
+
+    // Handle the "Dismiss" button click
+    $('.cancel-button').click(function() {
+          $('.at').hide();
+        });
+      });
+    });
+
+
+    $(document).ready(function () {
+            $('.sidebar__nav-link').click(function () {
+                $('.sidebar__nav-link').removeClass('sidebar__nav-link--active');
+                $(this).addClass('sidebar__nav-link--active');
+            });
+        });
+
+</script>
+
+<style>
+    .main__table tbody tr {
+        border-bottom: 10px solid #131720 !important;
+    }
+
+    .main__table tbody td {
+        padding: 0 !important;
+        border: 0px solid transparent !important;
+        background-color: transparent !important;
+    }
+
+    element.style {
+    }
+
+   
+
+
+    .main__table-text {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        font-size: 14px !important;
+        color: #fff !important;
+        font-weight: 400 !important;
+        line-height: 30px !important;
+        padding: 20px !important;
+        background-color: #151f30 !important;
+        white-space: nowrap !important;
+    }
+
+    .greenText {
+        color: #29b474 !important;
+    }
+
+    .redText {
+        color: #eb5757 !important;
+    }
+</style>

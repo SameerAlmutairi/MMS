@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MoviesDB.EF.Entertainments>
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- main title -->
+            <div class="col-12">
+                <div class="main__title">
+                    <h2>Users</h2>
+                    @* Users Number *@
+                    <span class="main__title-stat">@Model.Count() - total</span>
+                </div>
+            </div>
+            <!-- end main title -->
+            <!-- users -->
+            <div class="col-12">
+                <div class="main__table-wrap">
+                    <table class="main__table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>TITLE</th>
+                                <th>RATING</th>
+                                @*<th>Category</th>
+                                <th>CRAETED DATE</th>
+                                <th>ACTIONS</th>*@
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="main__table-text">@item.Id</div>
+                                    </td>
+                                    <td>
+                                        <div class="main__table-text">@item.Title</div>
+                                    </td>
+                                    <td>
+                                        <div class="main__table-text">@item.Ratings</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+
+                    </table>
+                </div>
+            </div>
+            <!-- end movies -->
+        </div>
+    </div>
+</main>

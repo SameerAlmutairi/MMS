@@ -1,0 +1,44 @@
+﻿@model MoviesDB.EF.Users
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+
+<div class="sign section--bg" style="background: url(../../Content/images/bg.jpg) center center/cover no-repeat;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="sign__content">
+                    <!-- authorization form -->
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "sign__form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a href="@Url.Action("Index","Movies")" class="sign__logo">
+                            <h1>MovieDB</h1>
+                        </a>
+                        <span class="sign__text">@TempData["Succes"]</span>
+                        <span class="sign__text">@ViewBag.Error</span>
+                        <div class="sign__group">
+                            @*<input type="text" class="sign__input" placeholder="Email">*@
+                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @placeholder = "UserName", @class = "sign__input" } })
+                        </div>
+
+                        <div class="sign__group">
+                            @*<input type="password" class="sign__input" placeholder="Password">*@
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @placeholder = "Password", @class = "sign__input" } })
+                        </div>
+
+                        <button class="sign__btn" type="submit">Sign in</button>
+
+                        <span class="sign__text">Don't have an account? <a href="@Url.Action("Register","Account")">Sign up!</a></span>
+
+                        @*<span class="sign__text"><a href="forgot.html">Forgot password?</a></span>*@
+                        <!-- end authorization form -->
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

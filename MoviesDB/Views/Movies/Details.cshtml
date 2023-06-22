@@ -1,0 +1,139 @@
+﻿@*@model MoviesDB.EF.Entertainments*@
+@model MoviesDB.ViewModels.MovieCommentsViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+
+    string directorName = Model.Entertainment.Directors?.Name ?? "No Director";
+    string genre = @Model.Entertainment.Ent_Genre.FirstOrDefault()?.Genres.Name ?? "No Genree";
+}
+
+<section class="section section--head section--head-fixed section--gradient section--details-bg">
+    <div class="container">
+        <div class="article">
+            <div class="row">
+                <div class="col-6">
+                    <div class="article__content">
+                        <h1>@Model.Entertainment.Title</h1>
+                        <ul class="list">
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"></path></svg>
+                                @Model.Entertainment.Ratings
+                            </li>
+                            <li>@genre </li>
+                            <li>@Model.Entertainment.Release_Year</li>
+                            <li>@Model.Entertainment.Duration</li>
+                        </ul>
+                        <p>
+                            @Model.Entertainment.Description
+                        </p>
+                    </div>
+                    <div class="col-12 col-xl-8">
+                        <!-- categories -->
+                        <div class="categories">
+                            <h3 class="categories__title">Genres</h3>
+                            @if (Model.Entertainment.Ent_Genre != null)
+                            {
+                                foreach (var item in Model.Entertainment.Ent_Genre)
+                                {
+                                    <a class="categories__item">@item.Genres.Name</a>
+                                }
+                            }
+                            else
+                            {
+                                <a class="categories__item">Empty Genre</a>
+                            }
+
+                        </div>
+                        <!-- end categories -->
+                    </div>
+                    <div class="col-12 col-xl-8">
+                        <!-- categories -->
+                        <div class="categories">
+                            <h3 class="categories__title">Directed By</h3>
+                            <div class="article__content">
+                                <p style=" padding-top: 15px; padding-left: 30px;">
+                                    @directorName
+                                </p>
+                            </div>
+
+                        </div>
+                        <!-- end categories -->
+                    </div>
+                </div>
+                <div class="home__card">
+                    <img class="movie-poster" src="~/Content/images/movies/@Model.Entertainment.Image_Cover" alt="">
+                </div>
+            </div>
+            @*@Html.Partial("~/Views/Comments/_GetMovieComments.cshtml", Model.Comments)*@
+            <div id="itemListContainer">
+                @Html.Partial("~/Views/Comments/_GetMovieComments.cshtml", Model.Comments)
+                
+            </div>
+        </div>
+    </div>
+    @*</div>*@
+</section>
+
+
+<style>
+    .header {
+        display: block !important;
+        background-color: transparent !important;
+    }
+
+    .header__logo {
+        background-color: transparent !important;
+    }
+
+
+    .movie-poster {
+        width: 200px;
+        height: 600px;
+        object-fit: cover;
+        object-position: center;
+    }
+    .section--details-bg {
+        padding-top: 30px;
+    }
+    .section--head-fixed {
+        margin-top: 0px;
+    }
+
+    /*.header__actions {
+        width: 177px;
+    }*/
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.sign__btn').click(function () {
+            var movieId = @Model.Entertainment.Id; // Assuming you have the movie ID available in the model
+            var text = $('#text').val();
+
+            // Create a data object to send in the request
+            var data = {
+                id: movieId,
+                text: text
+            };
+
+            // Send an AJAX request to the server
+            $.ajax({
+                url: '@Url.Action("AddComment", "Comments")',
+                type: 'POST',
+                data: data,
+                success: function (response) {
+                    // Handle the success response
+                    // For example, you can reload the comments section or perform any other action
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    // Handle the error response
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
